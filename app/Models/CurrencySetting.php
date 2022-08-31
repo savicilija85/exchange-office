@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class CurrencySetting extends Model
 {
     use HasFactory;
 
     public bool $timestamps = false;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 }
