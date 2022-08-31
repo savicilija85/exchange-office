@@ -22,6 +22,5 @@ yarn-error.log
 
 /docker/composer_cache
 /docker/npm_cache
-/docker/data
 /docker/logs
 

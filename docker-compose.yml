@@ -28,14 +28,10 @@ services:
         restart: always
         tty: true
         environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_PASSWORD=user
-            - MYSQL_USER=mysql_user
+            - MYSQL_ROOT_PASSWORD=root_password
             - MYSQL_DATABASE=exchange
         ports:
             - 3306:3306
-        volumes:
-            - ./docker/data/mysql:/var/lib/mysql
         networks:
             - exchange
 
