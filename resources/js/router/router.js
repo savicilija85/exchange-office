@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import ExampleComponent from "../components/ExampleComponent";
+import ExchangeComponent from "../components/ExchangeComponent";
 
 Vue.use(VueRouter);
 
 const routes = [
     {
         path: '/',
-        name: 'example',
-        component: ExampleComponent
+        name: 'exchange',
+        component: ExchangeComponent
     },
 ];
 

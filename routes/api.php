@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CurrenciesController;
+use App\Http\Controllers\ExchangeRatesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::resource('currencies', CurrenciesController::class)->only(['index']);
+Route::resource('exchange_rates', ExchangeRatesController::class)->only(['show']);

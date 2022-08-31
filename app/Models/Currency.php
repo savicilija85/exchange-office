@@ -13,5 +13,15 @@ class Currency extends Model
 
     public $incrementing = false;
 
+    protected $primaryKey = 'code';
+
     protected $keyType = 'string';
+
+    public function currency_setting(){
+        return $this->hasOne(CurrencySetting::class, 'code', 'code');
+    }
+
+    public function exchange_rate(){
+        return $this->hasOne(ExchangeRate::class, 'code', 'code');
+    }
 }
