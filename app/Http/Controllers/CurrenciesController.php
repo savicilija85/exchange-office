@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Currency;
+use App\Repositories\CurrencyRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class CurrenciesController extends Controller
 {
+
+    private CurrencyRepositoryInterface $currencyRepository;
+
+    public function __construct(CurrencyRepositoryInterface $currencyRepository){
+        $this->currencyRepository = $currencyRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +23,7 @@ class CurrenciesController extends Controller
      */
     public function index() : Collection
     {
-        return Currency::query()->select(['code'])->where('is_default', '=', false)->get();
+        return $this->currencyRepository->getNotDefaultCurrencies();
     }
 
     /**
