@@ -59,13 +59,13 @@
 
                         <tbody>
                             <tr>
-                                <td class="text-right">{{ selectedCurrency }}</td>
-                                <td class="text-right">{{ currentExchangeRate }}</td>
-                                <td class="text-right">{{ currentSurcharge + ' %' }}</td>
-                                <td class="text-right">{{ surchargeAmount}}</td>
-                                <td class="text-right">{{ currentDiscount + ' %'}}</td>
-                                <td class="text-right">{{ discountAmount }}</td>
-                                <td class="text-right">{{ buyAmount }}</td>
+                                <td class="text-left">{{ selectedCurrency }}</td>
+                                <td class="text-left">{{ currentExchangeRate }}</td>
+                                <td class="text-left">{{ currentSurcharge + ' %' }}</td>
+                                <td class="text-left">{{ surchargeAmount}}</td>
+                                <td class="text-left">{{ currentDiscount + ' %'}}</td>
+                                <td class="text-left">{{ discountAmount }}</td>
+                                <td class="text-left">{{ buyAmount }}</td>
                                 <td class="text-right"><strong>{{ amountToPay }}</strong></td>
                             </tr>
                         </tbody>
@@ -153,12 +153,15 @@
                 if(this.selectedCurrency && this.usdAmount){
                     this.buyAmount = this.usdAmount / this.currentExchangeRate;
                     this.buyAmount = Number(this.buyAmount.toFixed(2));
-                    if(this.currentSurcharge > 0){
-                        this.surchargeAmount = this.percentage(this.currentSurcharge, this.usdAmount);
-                    }
-                    if(this.currentDiscount > 0){
-                        this.discountAmount = this.percentage(this.currentDiscount, this.usdAmount);
-                    }
+
+                    this.currentSurcharge > 0 ?
+                        this.surchargeAmount = this.percentage(this.currentSurcharge, this.usdAmount) :
+                        this.surchargeAmount = 0;
+
+                    this.currentDiscount > 0 ?
+                        this.discountAmount = this.percentage(this.currentDiscount, this.usdAmount) :
+                        this.discountAmount = 0;
+
                     this.amountToPay = this.usdAmount + this.surchargeAmount + this.discountAmount;
                 }
             },
