@@ -12,7 +12,8 @@
                     label="Enter USD Amount"
                     type="number"
                     prepend-icon="mdi-currency-usd"
-                    v-model="usdAmount"
+                    v-model.number="usdAmount"
+                    @keyup="calculateOrder"
                 ></v-text-field>
             </v-col>
             <v-col cols="4">
@@ -27,6 +28,7 @@
                 <v-btn
                     color="deep-purple accent-4"
                     dark
+                    @click="placeOrder"
                 >
                     ORDER NOW
                 </v-btn>
@@ -57,20 +59,32 @@
 
                         <tbody>
                             <tr>
-                                <td class="text-right"> {{ selectedCurrency }} </td>
-                                <td class="text-right"> {{ currentExchangeRate }} </td>
-                                <td class="text-right"> {{ currentSurcharge + ' %' }} </td>
-                                <td class="text-right"></td>
+                                <td class="text-right">{{ selectedCurrency }}</td>
+                                <td class="text-right">{{ currentExchangeRate }}</td>
+                                <td class="text-right">{{ currentSurcharge + ' %' }}</td>
+                                <td class="text-right">{{ surchargeAmount}}</td>
                                 <td class="text-right">{{ currentDiscount + ' %'}}</td>
-                                <td class="text-right"></td>
-                                <td class="text-right"></td>
-                                <td class="text-right"><strong></strong></td>
+                                <td class="text-right">{{ discountAmount }}</td>
+                                <td class="text-right">{{ buyAmount }}</td>
+                                <td class="text-right"><strong>{{ amountToPay }}</strong></td>
                             </tr>
                         </tbody>
                     </template>
                 </v-simple-table>
             </v-col>
         </v-row>
+
+        <v-snackbar
+            v-model="showSnackbar"
+            color="green"
+            :timeout="3000"
+        >
+            <div
+                class="text-center"
+            >
+                Order successful
+            </div>
+        </v-snackbar>
 
     </v-container>
 
@@ -87,9 +101,14 @@
         data: () => ({
             usdAmount: 0,
             selectedCurrency: null,
-            currentExchangeRate: null,
-            currentSurcharge: null,
-            currentDiscount: null,
+            currentExchangeRate: 0,
+            currentSurcharge: 0,
+            surchargeAmount: 0,
+            currentDiscount: 0,
+            discountAmount: 0,
+            buyAmount: 0,
+            amountToPay: 0,
+            showSnackbar: false,
             currencies: [],
             tableHeaders: [
                 'Currency Purchased',
@@ -120,12 +139,50 @@
                 ExchangeRatesAPI.show(this.selectedCurrency)
                     .then((response) => {
                         this.currentExchangeRate = response.data.rate;
+                        this.calculateOrder();
                     });
                 CurrencySettingsAPI.show(this.selectedCurrency)
                     .then((response) => {
                         this.currentSurcharge = response.data.surcharge;
                         this.currentDiscount = response.data.discount;
+                        this.calculateOrder();
                     });
+            },
+
+            calculateOrder() {
+                if(this.selectedCurrency && this.usdAmount){
+                    this.buyAmount = this.usdAmount / this.currentExchangeRate;
+                    this.buyAmount = Number(this.buyAmount.toFixed(2));
+                    if(this.currentSurcharge > 0){
+                        this.surchargeAmount = this.percentage(this.currentSurcharge, this.usdAmount);
+                    }
+                    if(this.currentDiscount > 0){
+                        this.discountAmount = this.percentage(this.currentDiscount, this.usdAmount);
+                    }
+                    this.amountToPay = this.usdAmount + this.surchargeAmount + this.discountAmount;
+                }
+            },
+
+            percentage(percent, total){
+                let value = (percent/ 100) * total;
+                return Number(value.toFixed(2));
+            },
+
+            placeOrder(){
+                this.resetValues();
+                this.showSnackbar = true;
+            },
+
+            resetValues(){
+                this.usdAmount = 0;
+                this.selectedCurrency = null;
+                this.currentExchangeRate = 0;
+                this.currentSurcharge = 0;
+                this.surchargeAmount = 0;
+                this.currentDiscount = 0;
+                this.discountAmount = 0;
+                this.buyAmount = 0;
+                this.amountToPay = 0;
             }
 
         }
