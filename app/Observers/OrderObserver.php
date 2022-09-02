@@ -23,11 +23,13 @@ class OrderObserver
     {
         switch ($order->code){
             case 'EUR':
-                $currencySetting = $this->currencySettingRepository->getOne($order->code);
+                $currencySetting = $this->currencySettingRepository->getCurrencySettingByID($order->code);
+
                 $order->discount_percentage = $currencySetting->discount;
                 $order->discount_amount = ($order->discount_percentage / 100) * $order->amount_paid;
                 $order->discount_amount = round($order->discount_amount, 2);
                 $order->amount_paid = $order->amount_paid - $order->discount_amount;
+
                 break;
         }
     }
@@ -40,6 +42,6 @@ class OrderObserver
      */
     public function created(Order $order)
     {
-        //
+        
     }
 }

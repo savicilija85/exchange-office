@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 interface CurrencySettingRepositoryInterface
 {
-    public function getOne(string $code) : Model;
+    public function getCurrencySettingByID(string $code) : Model;
 }

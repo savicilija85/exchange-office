@@ -152,15 +152,15 @@
                     this.buyAmount = Number(this.buyAmount.toFixed(2));
 
                     this.currentSurcharge > 0 ?
-                        this.surchargeAmount = this.percentage(this.currentSurcharge, this.usdAmount) :
+                        this.surchargeAmount = this.calculateSurchargeAmount(this.currentSurcharge, this.currentExchangeRate, this.buyAmount) :
                         this.surchargeAmount = 0;
 
                     this.amountToPay = this.usdAmount + this.surchargeAmount;
                 }
             },
 
-            percentage(percent, total){
-                let value = (percent/ 100) * total;
+            calculateSurchargeAmount(currentSurcharge, currentExchangeRate, buyAmount){
+                let value = ((currentSurcharge / 100) * currentExchangeRate) * buyAmount;
                 return Number(value.toFixed(2));
             },
 
