@@ -2,8 +2,11 @@
 
 namespace App\Observers;
 
+use App\Mail\OrderSuccessful;
 use App\Models\Order;
+use App\Models\User;
 use App\Repositories\CurrencySettingRepositoryInterface;
+use Illuminate\Support\Facades\Mail;
 
 class OrderObserver
 {
@@ -42,6 +45,11 @@ class OrderObserver
      */
     public function created(Order $order)
     {
-        
+        switch ($order->code){
+            case 'GBP':
+                $user = User::find(1);
+                Mail::to($user->email)->send(new OrderSuccessful($order));
+                break;
+        }
     }
 }
