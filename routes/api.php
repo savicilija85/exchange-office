@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CurrenciesController;
 use App\Http\Controllers\ExchangeRatesController;
 use App\Http\Controllers\CurrencySettingsController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,4 @@ use App\Http\Controllers\CurrencySettingsController;
 Route::resource('currencies', CurrenciesController::class)->only(['index']);
 Route::resource('exchange_rates', ExchangeRatesController::class)->only(['show']);
 Route::resource('currency_settings', CurrencySettingsController::class)->only(['show']);
+Route::resource('orders', OrderController::class)->only(['index', 'store']);

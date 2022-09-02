@@ -63,8 +63,6 @@
                                 <td class="text-left">{{ currentExchangeRate }}</td>
                                 <td class="text-left">{{ currentSurcharge + ' %' }}</td>
                                 <td class="text-left">{{ surchargeAmount}}</td>
-                                <td class="text-left">{{ currentDiscount + ' %'}}</td>
-                                <td class="text-left">{{ discountAmount }}</td>
                                 <td class="text-left">{{ buyAmount }}</td>
                                 <td class="text-right"><strong>{{ amountToPay }}</strong></td>
                             </tr>
@@ -76,13 +74,13 @@
 
         <v-snackbar
             v-model="showSnackbar"
-            color="green"
+            :color="snackBarColor"
             :timeout="3000"
         >
             <div
                 class="text-center"
             >
-                Order successful
+                {{ snackBarMessage }}
             </div>
         </v-snackbar>
 
@@ -94,6 +92,7 @@
     import CurrenciesAPI from "../api/CurrenciesAPI";
     import ExchangeRatesAPI from "../api/ExchangeRatesAPI";
     import CurrencySettingsAPI from "../api/CurrencySettingsAPI";
+    import OrdersAPI from "../api/OrdersAPI";
 
     export default {
         name: "ExchangeComponent",
@@ -104,19 +103,17 @@
             currentExchangeRate: 0,
             currentSurcharge: 0,
             surchargeAmount: 0,
-            currentDiscount: 0,
-            discountAmount: 0,
             buyAmount: 0,
             amountToPay: 0,
             showSnackbar: false,
+            snackBarMessage: '',
+            snackBarColor: 'green',
             currencies: [],
             tableHeaders: [
                 'Currency Purchased',
                 'Exchange Rate',
                 'Surcharge Percentage',
                 'Amount of Surcharge',
-                'Discount Percentage',
-                'Discount Amount',
                 'Amount Purchased',
                 'Amount To Pay USD',
             ],
@@ -158,11 +155,7 @@
                         this.surchargeAmount = this.percentage(this.currentSurcharge, this.usdAmount) :
                         this.surchargeAmount = 0;
 
-                    this.currentDiscount > 0 ?
-                        this.discountAmount = this.percentage(this.currentDiscount, this.usdAmount) :
-                        this.discountAmount = 0;
-
-                    this.amountToPay = this.usdAmount + this.surchargeAmount + this.discountAmount;
+                    this.amountToPay = this.usdAmount + this.surchargeAmount;
                 }
             },
 
@@ -172,8 +165,26 @@
             },
 
             placeOrder(){
-                this.resetValues();
-                this.showSnackbar = true;
+                let data = {
+                    code: this.selectedCurrency,
+                    rate: this.currentExchangeRate,
+                    surcharge_percentage: this.currentSurcharge,
+                    surcharge_amount: this.surchargeAmount,
+                    amount_purchased: this.buyAmount,
+                    amount_paid: this.amountToPay,
+                };
+                OrdersAPI.store(data)
+                    .then((response) => {
+                        this.resetValues();
+                        this.snackBarMessage = 'Order successful';
+                        this.snackBarColor = 'green';
+                        this.showSnackbar = true;
+                    })
+                    .catch((error) => {
+                        this.snackBarMessage = error.response.data.message;
+                        this.snackBarColor = 'red';
+                        this.showSnackbar = true;
+                    });
             },
 
             resetValues(){
