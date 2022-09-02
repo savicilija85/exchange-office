@@ -16,6 +16,8 @@ class Order extends Model
         'rate',
         'surcharge_percentage',
         'surcharge_amount',
+        'discount_percentage',
+        'discount_amount',
         'amount_purchased',
         'amount_paid',
         'created_at'
