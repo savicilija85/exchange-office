@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Sanctum::ignoreMigrations();
         $this->app->register(RepositoryServiceProvider::class);
+        $this->app->register(ExternalAPIServiceProvider::class);
     }
 
     /**

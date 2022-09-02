@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('currency_settings', function (Blueprint $table) {
-            $table->string('code', 3);
+            $table->string('code', 3)->unique();
             $table->double('surcharge', 4, 2, true)->default(0);
             $table->double('discount', 4, 2, true)->default(0);
         });

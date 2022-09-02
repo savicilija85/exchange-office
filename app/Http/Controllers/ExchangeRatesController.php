@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExchangeRate;
+use App\Repositories\ExchangeRateRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ExchangeRatesController extends Controller
 {
+    private ExchangeRateRepositoryInterface $exchangeRateRepository;
+
+    public function __construct(ExchangeRateRepositoryInterface $exchangeRateRepository)
+    {
+        $this->exchangeRateRepository = $exchangeRateRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,12 +50,12 @@ class ExchangeRatesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ExchangeRate  $exchangeRate
-     * @return ExchangeRate
+     * @param string $code
+     * @return Response
      */
-    public function show(ExchangeRate $exchangeRate) : ExchangeRate
+    public function show(string $code) : Response
     {
-        return $exchangeRate;
+        return response($this->exchangeRateRepository->getOneExchangeRate($code));
     }
 
     /**

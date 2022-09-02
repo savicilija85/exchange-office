@@ -10,6 +10,8 @@ use App\Repositories\Eloquent\OrderRepository;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use App\Repositories\ExchangeRateRepositoryInterface;
+use App\Repositories\Eloquent\ExchangeRateRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -25,6 +27,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(CurrencySettingRepositoryInterface::class, CurrencySettingRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(ExchangeRateRepositoryInterface::class, ExchangeRateRepository::class);
     }
 
     /**

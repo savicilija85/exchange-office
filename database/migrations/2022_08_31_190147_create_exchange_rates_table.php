@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('exchange_rates', function (Blueprint $table) {
-            $table->string('code', 3);
+            $table->string('code', 3)->unique();
             $table->double('rate', 9, 6, true);
         });
     }
