@@ -13,6 +13,7 @@
                 <v-btn
                     color="deep-purple accent-4"
                     depressed
+                    to="/"
                 >
                     Exchange
                 </v-btn>
@@ -39,10 +40,10 @@
                     </template>
 
                     <v-list>
-                        <v-list-item link>
+                        <v-list-item link to="/user-settings">
                             <v-list-item-title>User Settings</v-list-item-title>
                         </v-list-item>
-                        <v-list-item link>
+                        <v-list-item link to="/currencies-settings">
                             <v-list-item-title>Currencies Settings</v-list-item-title>
                         </v-list-item>
                     </v-list>
