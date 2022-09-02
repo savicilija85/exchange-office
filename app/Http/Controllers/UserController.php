@@ -20,7 +20,7 @@ class UserController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show(int $id)
+    public function show(int $id) : Response
     {
         return response($this->userRepository->getOneUser($id));
     }

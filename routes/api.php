@@ -23,5 +23,5 @@ use App\Http\Controllers\UserController;
 Route::resource('users', UserController::class)->only(['show', 'update']);
 Route::resource('currencies', CurrenciesController::class)->only(['index']);
 Route::resource('exchange_rates', ExchangeRatesController::class)->only(['show']);
-Route::resource('currency_settings', CurrencySettingsController::class)->only(['show']);
+Route::resource('currency_settings', CurrencySettingsController::class)->only(['show', 'update']);
 Route::resource('orders', OrderController::class)->only(['index', 'store']);

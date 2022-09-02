@@ -26,6 +26,7 @@
                                     :value="user.email"
                                     v-model="user.email"
                                     :loading="loading"
+                                    :disabled="loading"
                                 ></v-text-field>
                             </v-list-item-content>
                         </v-list-item>
