@@ -6,6 +6,7 @@ use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Repositories\OrderRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class OrderController extends Controller
 {
@@ -19,11 +20,12 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return response($this->orderRepository->getAllOrders($request->all()));
     }
 
     /**

@@ -26,7 +26,7 @@ class OrderObserver
     {
         switch ($order->code){
             case 'EUR':
-                $currencySetting = $this->currencySettingRepository->getCurrencySettingByID($order->code);
+                $currencySetting = $this->currencySettingRepository->getOneCurrencySetting($order->code);
 
                 $order->discount_percentage = $currencySetting->discount;
                 $order->discount_amount = ($order->discount_percentage / 100) * $order->amount_paid;

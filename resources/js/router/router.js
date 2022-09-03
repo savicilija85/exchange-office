@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import ExchangeComponent from "../components/ExchangeComponent";
 import UserSettingsComponent from "../components/UserSettingsComponent";
 import CurrenciesSettingsComponent from "../components/CurrenciesSettingsComponent";
+import OrdersComponent from "../components/OrdersComponent";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,11 @@ const routes = [
         path: '/currencies-settings',
         name: 'currencies-settings',
         component: CurrenciesSettingsComponent
+    },
+    {
+        path: '/orders',
+        name: 'orders',
+        component: OrdersComponent
     },
 ];
 

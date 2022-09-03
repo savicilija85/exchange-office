@@ -21,6 +21,7 @@
                 <v-btn
                     color="deep-purple accent-4"
                     depressed
+                    to="orders"
                 >
                     Orders
                 </v-btn>
