@@ -14,6 +14,8 @@
                     prepend-icon="mdi-currency-usd"
                     v-model.number="usdAmount"
                     @keyup="calculateOrder"
+                    :loading="isOrderPlaced"
+                    :disabled="isOrderPlaced"
                 ></v-text-field>
             </v-col>
             <v-col cols="4">
@@ -22,6 +24,8 @@
                     :items="currencies"
                     label="Select Currency"
                     @change="getExchangeRateAndCurrencySetting"
+                    :loading="isOrderPlaced"
+                    :disabled="isOrderPlaced"
                 ></v-select>
             </v-col>
             <v-col cols="2">
@@ -29,6 +33,7 @@
                     color="deep-purple accent-4"
                     dark
                     @click="placeOrder"
+                    :loading="isOrderPlaced"
                 >
                     ORDER NOW
                 </v-btn>
@@ -41,8 +46,8 @@
             align="center"
             justify="center"
         >
-            <v-col cols="12">
-                <v-simple-table>
+            <v-col cols="12" class="text-center">
+                <v-simple-table v-if="isSelectedCurrencyDataLoaded">
                     <template v-slot:default>
 
                         <thead>
@@ -69,6 +74,13 @@
                         </tbody>
                     </template>
                 </v-simple-table>
+
+                <v-progress-circular
+                    v-else
+                    indeterminate
+                    color="deep-purple accent-4"
+                ></v-progress-circular>
+
             </v-col>
         </v-row>
 
@@ -119,7 +131,9 @@
             ],
             tableData: {
 
-            }
+            },
+            isSelectedCurrencyDataLoaded: false,
+            isOrderPlaced: false
         }),
 
         beforeCreate() {
@@ -132,18 +146,20 @@
 
         methods: {
 
-            getExchangeRateAndCurrencySetting(){
-                ExchangeRatesAPI.show(this.selectedCurrency)
+            async getExchangeRateAndCurrencySetting(){
+                this.isSelectedCurrencyDataLoaded = false;
+                await ExchangeRatesAPI.show(this.selectedCurrency)
                     .then((response) => {
                         this.currentExchangeRate = response.data.rate;
                         this.calculateOrder();
                     });
-                CurrencySettingsAPI.show(this.selectedCurrency)
+                await CurrencySettingsAPI.show(this.selectedCurrency)
                     .then((response) => {
                         this.currentSurcharge = response.data.surcharge;
                         this.currentDiscount = response.data.discount;
                         this.calculateOrder();
                     });
+                this.isSelectedCurrencyDataLoaded = true;
             },
 
             calculateOrder() {
@@ -165,6 +181,7 @@
             },
 
             placeOrder(){
+                this.isOrderPlaced = true;
                 let data = {
                     code: this.selectedCurrency,
                     rate: this.currentExchangeRate,
@@ -179,11 +196,13 @@
                         this.snackBarMessage = 'Order successful';
                         this.snackBarColor = 'green';
                         this.showSnackbar = true;
+                        this.isOrderPlaced = false;
                     })
                     .catch((error) => {
                         this.snackBarMessage = error.response.data.message;
                         this.snackBarColor = 'red';
                         this.showSnackbar = true;
+                        this.isOrderPlaced = false;
                     });
             },
 

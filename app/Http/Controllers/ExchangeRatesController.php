@@ -24,7 +24,6 @@ class ExchangeRatesController extends Controller
      */
     public function show(string $code) : Response
     {
-        sleep(5);
         return response($this->exchangeRateRepository->getOneExchangeRate($code));
     }
 }
