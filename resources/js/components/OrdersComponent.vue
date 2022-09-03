@@ -51,7 +51,7 @@
                 { text: 'Discount Percentage', value: 'discount_percentage' },
                 { text: 'Discount Amount', value: 'discount_amount' },
                 { text: 'Amount Purchased', value: 'amount_purchased' },
-                { text: 'Amount Paid', value: 'discount_amount' },
+                { text: 'Amount Paid', value: 'amount_paid' },
                 { text: 'Date Created', value: 'created_at' }
             ],
             orders: [],
@@ -65,7 +65,6 @@
 
         methods: {
             getOrders(){
-                console.log(this.options);
                 this.loading = true;
                 OrdersAPI.index(this.options)
                     .then((response) => {
