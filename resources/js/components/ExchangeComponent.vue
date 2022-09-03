@@ -189,6 +189,7 @@
                     surcharge_amount: this.surchargeAmount,
                     amount_purchased: this.buyAmount,
                     amount_paid: this.amountToPay,
+                    usd_amount: this.usdAmount
                 };
                 OrdersAPI.store(data)
                     .then((response) => {

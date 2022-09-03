@@ -29,7 +29,8 @@ class OrderRequest extends FormRequest
             'surcharge_percentage' => 'required|numeric',
             'surcharge_amount' => 'required|numeric',
             'amount_purchased' => 'required|numeric',
-            'amount_paid' => 'required|numeric|gt:0'
+            'amount_paid' => 'required|numeric|gt:0',
+            'usd_amount' => 'required|numeric|gt:0',
         ];
     }
 }
