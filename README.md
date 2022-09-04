@@ -26,13 +26,17 @@ Then run next command:
 ```
 ./start.sh
 ```
-Wait for everything to be finished and then open your browser and go to ```localhost``` or ```127.0.0.1``` and test the app.
+Wait for everything to be finished and give this permissions to Laravel storage folder (this is not good practice, but for local testing it should be just fine):
+```
+sudo chmod -R 777 storage
+```
+Then open your browser and go to ```localhost``` or ```127.0.0.1``` and test the app.
 
 In order to update currencies exchange rates run next command:
 ```
 ./artisan.sh exchange_rates:update
 ```
-When you  finished with testing run next command in order to shutdown running Docker containers:
+When you're done with testing run next command in order to shutdown running Docker containers:
 ```
 ./down.sh
 ```
