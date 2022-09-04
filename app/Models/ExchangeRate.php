@@ -9,7 +9,7 @@ class ExchangeRate extends Model
 {
     use HasFactory;
 
-    public bool $timestamps = false;
+    public $timestamps = false;
 
     public $incrementing = false;
 

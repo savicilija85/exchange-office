@@ -9,9 +9,9 @@ class Order extends Model
 {
     use HasFactory;
 
-    public bool $timestamps = false;
+    public $timestamps = false;
 
-    protected array $fillable = [
+    protected $fillable = [
         'code',
         'rate',
         'surcharge_percentage',
