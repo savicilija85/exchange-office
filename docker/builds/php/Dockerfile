@@ -29,9 +29,6 @@ RUN chmod 0644 /etc/cron.d/cron
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo pdo_mysql intl mbstring zip opcache
 
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
-
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -40,6 +37,4 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Run cron process on container startup
 CMD cron && docker-php-entrypoint php-fpm
-#CMD ["cron", "-f"]
-#CMD docker-php-entrypoint php-fpm
 
